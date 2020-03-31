@@ -88,7 +88,7 @@ app.get("/posts/:postName", function(req,res){
 
 //invoked after hitting go in the html form
 app.post("/weather", function(req, res) {
-    
+    weathers = [];
     // takes in the city from the html form, display in // console. Takes in as string.
         var cityname = String(req.body.city);
         console.log(req.body.city);
@@ -97,11 +97,11 @@ app.post("/weather", function(req, res) {
         const units = "imperial";
         const apiKey = "3b551261447f0cb0c1cf47ef4c30c323";
         const url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "&units=" + units + "&APPID=" + apiKey;
-      
-      https.get(url, function(response){
-        console.log(resonse.statuscode);
-      
-
+    
+    // this gets the data from Open WeatherPI
+    https.get(url, function(response){
+        console.log(response.statusCode);
+        
         // gets individual items from Open Weather API
         response.on("data", function(data){
             const weatherData = JSON.parse(data);
@@ -113,7 +113,7 @@ app.post("/weather", function(req, res) {
             const weatherDescription = weatherData.weather[0].description; 
             const icon = weatherData.weather[0].icon;
             const imageURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png"; 
-                         
+            
               const weather = {
                 city: city,
                 image: imageURL,
